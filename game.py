@@ -18,6 +18,7 @@ class Game:
         screen = pygame.display.set_mode((self.width, self.height))
         BASICFONT = pygame.font.Font('freesansbold.ttf', 18)
         pygame.display.set_caption('Snake Game')
+        pygame.mixer.music.load('beep-07.mp3')
         self.startscreen()
         while True:
             self.gameplay()
@@ -80,14 +81,14 @@ class Game:
                 pygame.event.get() 
                 return
     
-    def getRandomLocation(self, worm):
+    def getRandomLocation(self, snake):
         temp = {'x': random.randint(0, self.block_width - 1), 'y': random.randint(0, self.block_height - 1)}
-        while self.test_not_ok(temp, worm):
+        while self.test_not_ok(temp, snake):
             temp = {'x': random.randint(0, self.block_width - 1), 'y': random.randint(0, self.block_height - 1)}
         return temp
 
-    def test_not_ok(self, temp, worm):
-        for body in worm:
+    def test_not_ok(self, temp, snake):
+        for body in snake:
             if temp['x'] == body['x'] and temp['y'] == body['y']:
                 return True
         return False
@@ -98,14 +99,14 @@ class Game:
         scoreRect.topleft = (self.width - 120, 10)
         screen.blit(scoreSurf, scoreRect)
 
-    def drawWorm(self, wormCoords):
-        for coord in wormCoords:
+    def drawsnake(self, snakeCoords):
+        for coord in snakeCoords:
             x = coord['x'] * self.block_size
             y = coord['y'] * self.block_size
-            wormSegmentRect = pygame.Rect(x, y, self.block_size, self.block_size)
-            pygame.draw.rect(screen, cons.DARKGREEN, wormSegmentRect)
-            wormInnerSegmentRect = pygame.Rect(x + 2, y + 2, self.block_size - 2, self.block_size - 2)
-            pygame.draw.rect(screen, cons.GREEN, wormInnerSegmentRect)
+            snakeSegmentRect = pygame.Rect(x, y, self.block_size, self.block_size)
+            pygame.draw.rect(screen, cons.DARKGREEN, snakeSegmentRect)
+            snakeInnerSegmentRect = pygame.Rect(x + 2, y + 2, self.block_size - 2, self.block_size - 2)
+            pygame.draw.rect(screen, cons.GREEN, snakeInnerSegmentRect)
 
     def drawfood(self, coord):
         x = coord['x'] * self.block_size
@@ -122,12 +123,12 @@ class Game:
     def gameplay(self):
         startx = random.randint(5, self.block_width - 6)
         starty = random.randint(5, self.block_height - 6)
-        wormCoords = [{'x': startx,     'y': starty},
+        snakeCoords = [{'x': startx,     'y': starty},
                     {'x': startx - 1, 'y': starty},
                     {'x': startx - 2, 'y': starty}]
         direction = cons.RIGHT
 
-        food = self.getRandomLocation(wormCoords)
+        food = self.getRandomLocation(snakeCoords)
 
         while True:
             pre_direction = direction
@@ -145,32 +146,33 @@ class Game:
                         direction = cons.DOWN
                     elif event.key == K_ESCAPE:
                         self.close()
-            if wormCoords[cons.HEAD]['x'] == -1 or wormCoords[cons.HEAD]['x'] == self.block_width or wormCoords[cons.HEAD]['y'] == -1 or wormCoords[cons.HEAD]['y'] == self.block_height:
+            if snakeCoords[cons.HEAD]['x'] == -1 or snakeCoords[cons.HEAD]['x'] == self.block_width or snakeCoords[cons.HEAD]['y'] == -1 or snakeCoords[cons.HEAD]['y'] == self.block_height:
                 return 
-            for wormBody in wormCoords[1:]:
-                if wormBody['x'] == wormCoords[cons.HEAD]['x'] and wormBody['y'] == wormCoords[cons.HEAD]['y']:
+            for snakeBody in snakeCoords[1:]:
+                if snakeBody['x'] == snakeCoords[cons.HEAD]['x'] and snakeBody['y'] == snakeCoords[cons.HEAD]['y']:
                     return 
 
-            if wormCoords[cons.HEAD]['x'] == food['x'] and wormCoords[cons.HEAD]['y'] == food['y']:
-                food = self.getRandomLocation(wormCoords) 
+            if snakeCoords[cons.HEAD]['x'] == food['x'] and snakeCoords[cons.HEAD]['y'] == food['y']:
+                food = self.getRandomLocation(snakeCoords) 
+                pygame.mixer.music.play(0)
             else:
-                del wormCoords[-1] 
+                del snakeCoords[-1] 
             if not self.examine_direction(direction, pre_direction):
                 direction = pre_direction
             if direction == cons.UP:
-                newHead = {'x': wormCoords[cons.HEAD]['x'], 'y': wormCoords[cons.HEAD]['y'] - 1}
+                newHead = {'x': snakeCoords[cons.HEAD]['x'], 'y': snakeCoords[cons.HEAD]['y'] - 1}
             elif direction == cons.DOWN:
-                newHead = {'x': wormCoords[cons.HEAD]['x'], 'y': wormCoords[cons.HEAD]['y'] + 1}
+                newHead = {'x': snakeCoords[cons.HEAD]['x'], 'y': snakeCoords[cons.HEAD]['y'] + 1}
             elif direction == cons.LEFT:
-                newHead = {'x': wormCoords[cons.HEAD]['x'] - 1, 'y': wormCoords[cons.HEAD]['y']}
+                newHead = {'x': snakeCoords[cons.HEAD]['x'] - 1, 'y': snakeCoords[cons.HEAD]['y']}
             elif direction == cons.RIGHT:
-                newHead = {'x': wormCoords[cons.HEAD]['x'] + 1, 'y': wormCoords[cons.HEAD]['y']}
-            wormCoords.insert(0, newHead)
+                newHead = {'x': snakeCoords[cons.HEAD]['x'] + 1, 'y': snakeCoords[cons.HEAD]['y']}
+            snakeCoords.insert(0, newHead)
             screen.fill(cons.BGCOLOR)
             self.grid()
-            self.drawWorm(wormCoords)
+            self.drawsnake(snakeCoords)
             self.drawfood(food)
-            self.drawScore(len(wormCoords) - 3)
+            self.drawScore(len(snakeCoords) - 3)
             pygame.display.update()
             clock.tick(self.fps)
 
