@@ -130,9 +130,13 @@ class Game:
         direction = cons.RIGHT
 
         food = self.getRandomLocation(snakeCoords)
+        g = bfs.create()
 
         while True:
             pre_direction = direction
+            
+            
+
             for event in pygame.event.get(): 
                 if event.type == QUIT:
                     self.close()
@@ -158,6 +162,22 @@ class Game:
                 pygame.mixer.music.play(0)
             else:
                 del snakeCoords[-1] 
+
+            src = (snakeCoords[cons.HEAD]['x'], snakeCoords[cons.HEAD]['y'])
+            dest = (food['x'], food['y'])
+            path = g.shortest_distance(src, dest)
+            if not path:
+                direction = pre_direction
+            else:
+
+                if path[1] == (src[0],src[1]-1):
+                    direction = cons.UP
+                elif path[1] == (src[0]+1,src[1]):
+                    direction = cons.RIGHT
+                elif path[1] == (src[0],src[1]+1):
+                    direction = cons.DOWN
+                elif path[1] == (src[0]-1,src[1]):
+                    direction = cons.LEFT
             if not self.examine_direction(direction, pre_direction):
                 direction = pre_direction
             if direction == cons.UP:
