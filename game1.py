@@ -166,10 +166,10 @@ class Game:
             src = (snakeCoords[cons.HEAD]['x'], snakeCoords[cons.HEAD]['y'])
             dest = (food['x'], food['y'])
             path = g.shortest_distance(src, dest)
+            #if not (path[1][0] == -1 or path[1][0] == self.block_width or path[0][1] == -1 or path[0][1] == self.block_height):
             if not path:
                 direction = pre_direction
             else:
-
                 if path[1] == (src[0],src[1]-1):
                     direction = cons.UP
                 elif path[1] == (src[0]+1,src[1]):
@@ -178,16 +178,86 @@ class Game:
                     direction = cons.DOWN
                 elif path[1] == (src[0]-1,src[1]):
                     direction = cons.LEFT
+
             if not self.examine_direction(direction, pre_direction):
                 direction = pre_direction
+
             if direction == cons.UP:
                 newHead = {'x': snakeCoords[cons.HEAD]['x'], 'y': snakeCoords[cons.HEAD]['y'] - 1}
+                for snakeBody in snakeCoords[1:]:
+                    if snakeBody['x'] == newHead['x'] and snakeBody['y'] == newHead['y']:
+                        newHead = {'x': snakeCoords[cons.HEAD]['x'], 'y': snakeCoords[cons.HEAD]['y'] + 1}
+                        break
+                for snakeBody in snakeCoords[1:]:
+                    if snakeBody['x'] == newHead['x'] and snakeBody['y'] == newHead['y']:
+                        newHead = {'x': snakeCoords[cons.HEAD]['x'] + 1, 'y': snakeCoords[cons.HEAD]['y']}
+                        break
+                for snakeBody in snakeCoords[1:]:
+                    if snakeBody['x'] == newHead['x'] and snakeBody['y'] == newHead['y']:
+                        newHead = {'x': snakeCoords[cons.HEAD]['x'] - 1, 'y': snakeCoords[cons.HEAD]['y']}
+                        break
+                if (newHead['x'] == -1 or newHead['x'] == self.block_width or newHead['y'] == -1 or newHead['y'] == self.block_height):
+                    newHead = {'x': snakeCoords[cons.HEAD]['x'] - 1, 'y': snakeCoords[cons.HEAD]['y']}
+                if (newHead['x'] == -1 or newHead['x'] == self.block_width or newHead['y'] == -1 or newHead['y'] == self.block_height):
+                    newHead = {'x': snakeCoords[cons.HEAD]['x'] + 1, 'y': snakeCoords[cons.HEAD]['y']}
+
             elif direction == cons.DOWN:
                 newHead = {'x': snakeCoords[cons.HEAD]['x'], 'y': snakeCoords[cons.HEAD]['y'] + 1}
+                for snakeBody in snakeCoords[1:]:
+                    if snakeBody['x'] == newHead['x'] and snakeBody['y'] == newHead['y']:
+                        newHead = {'x': snakeCoords[cons.HEAD]['x'], 'y': snakeCoords[cons.HEAD]['y'] - 1}
+                        break
+                for snakeBody in snakeCoords[1:]:
+                    if snakeBody['x'] == newHead['x'] and snakeBody['y'] == newHead['y']:
+                        newHead = {'x': snakeCoords[cons.HEAD]['x'] + 1, 'y': snakeCoords[cons.HEAD]['y']}
+                        break
+                for snakeBody in snakeCoords[1:]:
+                    if snakeBody['x'] == newHead['x'] and snakeBody['y'] == newHead['y']:
+                        newHead = {'x': snakeCoords[cons.HEAD]['x'] - 1, 'y': snakeCoords[cons.HEAD]['y']}
+                        break
+                if (newHead['x'] == -1 or newHead['x'] == self.block_width or newHead['y'] == -1 or newHead['y'] == self.block_height):
+                    newHead = {'x': snakeCoords[cons.HEAD]['x'] - 1, 'y': snakeCoords[cons.HEAD]['y']}
+                if (newHead['x'] == -1 or newHead['x'] == self.block_width or newHead['y'] == -1 or newHead['y'] == self.block_height):
+                    newHead = {'x': snakeCoords[cons.HEAD]['x'] + 1, 'y': snakeCoords[cons.HEAD]['y']}
+
             elif direction == cons.LEFT:
                 newHead = {'x': snakeCoords[cons.HEAD]['x'] - 1, 'y': snakeCoords[cons.HEAD]['y']}
+                for snakeBody in snakeCoords[1:]:
+                    if snakeBody['x'] == newHead['x'] and snakeBody['y'] == newHead['y']:
+                        newHead = {'x': snakeCoords[cons.HEAD]['x'] + 1, 'y': snakeCoords[cons.HEAD]['y']}
+                        break
+                for snakeBody in snakeCoords[1:]:
+                    if snakeBody['x'] == newHead['x'] and snakeBody['y'] == newHead['y']:
+                        newHead = {'x': snakeCoords[cons.HEAD]['x'], 'y': snakeCoords[cons.HEAD]['y'] + 1}
+                        break
+                for snakeBody in snakeCoords[1:]:
+                    if snakeBody['x'] == newHead['x'] and snakeBody['y'] == newHead['y']:
+                        newHead = {'x': snakeCoords[cons.HEAD]['x'], 'y': snakeCoords[cons.HEAD]['y'] - 1}
+                        break
+                if (newHead['x'] == -1 or newHead['x'] == self.block_width or newHead['y'] == -1 or newHead['y'] == self.block_height):
+                    newHead = {'x': snakeCoords[cons.HEAD]['x'], 'y': snakeCoords[cons.HEAD]['y'] - 1}
+                if (newHead['x'] == -1 or newHead['x'] == self.block_width or newHead['y'] == -1 or newHead['y'] == self.block_height):
+                    newHead = {'x': snakeCoords[cons.HEAD]['x'], 'y': snakeCoords[cons.HEAD]['y'] + 1}
+
             elif direction == cons.RIGHT:
                 newHead = {'x': snakeCoords[cons.HEAD]['x'] + 1, 'y': snakeCoords[cons.HEAD]['y']}
+                for snakeBody in snakeCoords[1:]:
+                    if snakeBody['x'] == newHead['x'] and snakeBody['y'] == newHead['y']:
+                        newHead = {'x': snakeCoords[cons.HEAD]['x'] - 1, 'y': snakeCoords[cons.HEAD]['y']}
+                        break
+                for snakeBody in snakeCoords[1:]:
+                    if snakeBody['x'] == newHead['x'] and snakeBody['y'] == newHead['y']:
+                        newHead = {'x': snakeCoords[cons.HEAD]['x'], 'y': snakeCoords[cons.HEAD]['y'] + 1}
+                        break
+                for snakeBody in snakeCoords[1:]:
+                    if snakeBody['x'] == newHead['x'] and snakeBody['y'] == newHead['y']:
+                        newHead = {'x': snakeCoords[cons.HEAD]['x'], 'y': snakeCoords[cons.HEAD]['y'] - 1}
+                        break
+                if (newHead['x'] == -1 or newHead['x'] == self.block_width or newHead['y'] == -1 or newHead['y'] == self.block_height):
+                    newHead = {'x': snakeCoords[cons.HEAD]['x'], 'y': snakeCoords[cons.HEAD]['y'] - 1}
+                if (newHead['x'] == -1 or newHead['x'] == self.block_width or newHead['y'] == -1 or newHead['y'] == self.block_height):
+                    newHead = {'x': snakeCoords[cons.HEAD]['x'], 'y': snakeCoords[cons.HEAD]['y'] + 1}
+                
             snakeCoords.insert(0, newHead)
             screen.fill(cons.BGCOLOR)
             self.grid()
