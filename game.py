@@ -5,9 +5,9 @@ import constants as cons
 
 class Game:
     fps = 10
-    width = 640
-    height = 480
-    block_size = 20
+    width = 400
+    height = 400
+    block_size = 40
     block_width = int(width / block_size)
     block_height = int(height / block_size)
 
@@ -121,8 +121,8 @@ class Game:
             pygame.draw.line(screen, cons.GRAY, (0, y), (self.width, y))
 
     def gameplay(self):
-        startx = random.randint(5, self.block_width - 6)
-        starty = random.randint(5, self.block_height - 6)
+        startx = random.randint(5, self.block_width - 4)
+        starty = random.randint(5, self.block_height - 4)
         snakeCoords = [{'x': startx,     'y': starty},
                     {'x': startx - 1, 'y': starty},
                     {'x': startx - 2, 'y': starty}]

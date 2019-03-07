@@ -8,7 +8,7 @@ pygame.init()
 col = 30
 row = 30
 margin = 5
-block_size = 20
+block_size = 30
 
 display_width = (col*block_size)+((col+1)*margin)
 display_height = (row*block_size)+((row+1)*margin)
