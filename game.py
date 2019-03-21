@@ -4,7 +4,7 @@ import constants as cons
 import bfs
 
 class Game:
-    fps = 10
+    fps = 30
     width = 400
     height = 400
     block_size = 40
@@ -51,7 +51,7 @@ class Game:
             self.close()
         keyUpEvents = pygame.event.get(KEYUP)
         if len(keyUpEvents) == 0:
-            return None
+            return
         if keyUpEvents[0].key == K_ESCAPE:
             self.close()
         return keyUpEvents[0].key
@@ -80,6 +80,8 @@ class Game:
                 self.main_menu()
     
     def getRandomLocation(self, snake):
+        if len(snake) == 100:
+            return False
         temp = {'x': random.randint(0, self.block_width - 1), 'y': random.randint(0, self.block_height - 1)}
         while self.test_not_ok(temp, snake):
             temp = {'x': random.randint(0, self.block_width - 1), 'y': random.randint(0, self.block_height - 1)}
@@ -229,6 +231,9 @@ class Game:
                     elif event.key==pygame.K_2:
                         self.bfs_play()
                         self.overscreen()
+                    elif event.key==pygame.K_3:
+                        self.hamiltonian_game()
+                        self.overscreen()
                     elif event.key==pygame.K_4:
                         self.close()
     
@@ -374,6 +379,74 @@ class Game:
             self.drawScore(len(snakeCoords) - 3)
             pygame.display.update()
             clock.tick(self.fps)
+
+    def hamiltonian_game(self):
+        startx = random.randint(0, self.block_width -1)
+        starty = random.randint(0, self.block_height -1)
+        snakeCoords = [{'x': startx,     'y': starty},
+                    {'x': startx - 1, 'y': starty},
+                    {'x': startx - 2, 'y': starty}]
+        direction = cons.RIGHT
+        newHead ={}
+        food = self.getRandomLocation(snakeCoords)
+        while True: 
+            for event in pygame.event.get(): 
+                if event.type == QUIT:
+                    self.close()
+            direction = self.get_direction(snakeCoords[0], direction)
+            if snakeCoords[cons.HEAD]['x'] == -1 or snakeCoords[cons.HEAD]['x'] == self.block_width or snakeCoords[cons.HEAD]['y'] == -1 or snakeCoords[cons.HEAD]['y'] == self.block_height:
+                return 
+            for snakeBody in snakeCoords[1:]:
+                if snakeBody['x'] == snakeCoords[cons.HEAD]['x'] and snakeBody['y'] == snakeCoords[cons.HEAD]['y']:
+                    return 
+            if snakeCoords[cons.HEAD]['x'] == food['x'] and snakeCoords[cons.HEAD]['y'] == food['y']:
+                food = self.getRandomLocation(snakeCoords) 
+                if food == False:
+                    return
+            else:
+                del snakeCoords[-1] 
+            if direction == cons.UP:
+                newHead = {'x': snakeCoords[cons.HEAD]['x'], 'y': snakeCoords[cons.HEAD]['y'] - 1}
+            elif direction == cons.DOWN:
+                newHead = {'x': snakeCoords[cons.HEAD]['x'], 'y': snakeCoords[cons.HEAD]['y'] + 1}
+            elif direction == cons.LEFT:
+                newHead = {'x': snakeCoords[cons.HEAD]['x'] - 1, 'y': snakeCoords[cons.HEAD]['y']}
+            elif direction == cons.RIGHT:
+                newHead = {'x': snakeCoords[cons.HEAD]['x'] + 1, 'y': snakeCoords[cons.HEAD]['y']}
+            snakeCoords.insert(0, newHead)
+            screen.fill(cons.BGCOLOR)
+            self.grid()
+            self.drawsnake(snakeCoords)
+            self.drawfood(food)
+            self.drawScore(len(snakeCoords) - 3)
+            pygame.display.update()
+            clock.tick(self.fps) 
+
+    def get_direction(self, head_, last_direction):
+        if head_['x'] == 1:
+            if head_['y'] == self.block_height - 1:
+                return cons.LEFT
+            elif head_['y'] == 0:
+                return cons.RIGHT
+            if last_direction == cons.LEFT:
+                return cons.DOWN
+            elif last_direction == cons.DOWN:
+                return cons.RIGHT
+        elif head_['x'] >= 1 and head_['x'] <= self.block_width-2:
+            if last_direction == cons.RIGHT:
+                return cons.RIGHT
+            elif last_direction == cons.LEFT:
+                return cons.LEFT
+        elif head_['x'] == (self.block_width-1):
+            if last_direction == cons.RIGHT:
+                return cons.DOWN
+            elif last_direction == cons.DOWN:
+                return cons.LEFT
+        elif head_['x'] == 0:
+            if head_['y'] != 0:
+                return cons.UP
+            else:
+                return cons.RIGHT
 
 if __name__ == '__main__':
     Game()
