@@ -70,6 +70,17 @@ class Graph:
 def create():
     g = Graph()
 
+    # for x in range(0, 10):
+    #     for y in range(0, 10):
+    #         if x-1 >= 0:
+    #             g.addEdge(grid[x][y], grid[x-1][y])
+    #         if x+1 <= 9:
+    #             g.addEdge(grid[x][y], grid[x+1][y])
+    #         if y-1 >= 0:
+    #             g.addEdge(grid[x][y], grid[x][y-1])
+    #         if y+1 <= 9:
+    #             g.addEdge(grid[x][y], grid[x][y+1])
+    
     for x in range(1, 9):
         for y in range(1, 9):
             g.addEdge(grid[x][y], grid[x-1][y])
@@ -106,7 +117,8 @@ def create():
     g.addEdge(grid[9][0], grid[9][1])
 
     return g
-    #print(g.graph)
-    #print(g.shortest_distance((0,0),(0,2)))
+    for k, v in g.graph.items():
+        print(k, "=>", v)
+    #print(g.shortest_distance((0,0),(9,9)))
 
 #create()

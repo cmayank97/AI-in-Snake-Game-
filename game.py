@@ -6,8 +6,8 @@ import bfs
 
 class Game:
     fps = 10
-    width = 400
-    height = 400
+    width = 800
+    height = 800
     block_size = 40
     block_width = int(width / block_size)
     block_height = int(height / block_size)
