@@ -14,3 +14,9 @@ LEFT = 'left'
 RIGHT = 'right'
 
 HEAD = 0
+w = 400
+h = 400
+block_size = 40
+width = int(w / block_size)
+height = int(h / block_size)
+
