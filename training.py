@@ -1,5 +1,4 @@
-from game import *
-from neural_func import generate_training_data
+from utility import generate_training_data
 from keras.models import Sequential
 from keras.layers import Dense
 
