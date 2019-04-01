@@ -14,12 +14,10 @@ config.log_device_placement = True  # to log device placement (on which device t
 sess = tf.Session(config=config)
 set_session(sess)  # set this TensorFlow session as the default session for Keras
 
-""" json_file = open('model.json', 'r')
+json_file = open('model.json', 'r')
 loaded_json_model = json_file.read()
 model = model_from_json(loaded_json_model)
-model.load_weights('model.h5') """
-
-model =''
+model.load_weights('dnn_model.h5')
 
 class Game:
     fps = 20

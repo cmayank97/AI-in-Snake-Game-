@@ -1,8 +1,11 @@
 from utility import generate_training_data
 from keras.models import Sequential
 from keras.layers import Dense
+import numpy as np
 
+print("Generating Training Datasets")
 training_data_x, training_data_y = generate_training_data()
+print("Datasets Generated")
 model = Sequential()
 model.add(Dense(units=9,input_dim=7))
 model.add(Dense(units=15, activation='relu'))
