@@ -1,12 +1,6 @@
 from collections import defaultdict
 
 grid = [[(y,x) for y in range(10)] for x in range(10)]
-#u, v = 0, 0
-# for x in range(10):
-#     for y in range(10):
-#         grid[x][y] = (u, v)
-#         u += 1
-#     v += 1
 
 class Graph: 
   
@@ -17,13 +11,9 @@ class Graph:
         self.graph[u].append(v) 
     
     def shortest_distance(self, src, dest):
-        # pred = [0 for i in range(100)]
-        # dist = [0 for i in range(100)]
         pred, dist = {}, {}
         adj = self.graph
-
         if (self.bfs(adj, src, dest, pred, dist) == False): 
-            print("Not connected")
             return 
   
         path = [] 
@@ -32,11 +22,7 @@ class Graph:
         while (pred[crawl] != -1):
             path.append(pred[crawl]); 
             crawl = pred[crawl]; 
-        
-        print("distance to destination:", dist[dest], "units") 
         path.reverse()
-        print(path)
-        
         return path
 
     def bfs(self, adj, src, dest, pred, dist):
@@ -117,8 +103,3 @@ def create():
     g.addEdge(grid[9][0], grid[9][1])
 
     return g
-    for k, v in g.graph.items():
-        print(k, "=>", v)
-    #print(g.shortest_distance((0,0),(9,9)))
-
-#create()
