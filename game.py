@@ -267,6 +267,8 @@ class Game:
             src = (snakeCoords[cons.HEAD][0], snakeCoords[cons.HEAD][1])
             dest = (food[0], food[1])
             path = g.shortest_distance(src, dest)
+            print(path)
+
             if path[1] == (src[0],src[1]-1):
                 direction = cons.UP
             elif path[1] == (src[0]+1,src[1]):
@@ -466,6 +468,7 @@ class Game:
             elif direction == cons.RIGHT:
                 newHead = [snakeCoords[cons.HEAD][0] + 1, snakeCoords[cons.HEAD][1]]
             snakeCoords.insert(0, newHead)
+            print(snakeCoords)
             self.screen.fill(cons.BGCOLOR)
             self.grid()
             self.drawsnake(snakeCoords)

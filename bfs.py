@@ -1,6 +1,8 @@
 from collections import defaultdict
-
-grid = [[(y,x) for y in range(10)] for x in range(10)]
+import constants as cons
+row = cons.width
+col = cons.height
+grid = [[(y,x) for y in range(row)] for x in range(col)]
 class Graph: 
   
     def __init__(self):  
@@ -27,8 +29,8 @@ class Graph:
     def bfs(self, adj, src, dest, pred, dist):
         visited, queue = {}, []
 
-        for i in range(10):
-            for j in range(10):
+        for i in range(row):
+            for j in range(col):
                 visited[(j, i)] = False
                 dist[(j, i)] = 999; 
                 pred[(j, i)] = -1; 
@@ -55,7 +57,7 @@ class Graph:
 def create():
     g = Graph()
 
-    for x in range(1, 9):
+    '''for x in range(1, 9):
         for y in range(1, 9):
             g.addEdge(grid[x][y], grid[x-1][y])
             g.addEdge(grid[x][y], grid[x+1][y])
@@ -89,5 +91,61 @@ def create():
 
     g.addEdge(grid[9][0], grid[8][0])
     g.addEdge(grid[9][0], grid[9][1])
+'''
 
+    for i in range(row):
+        for j in range(col):
+            if(i==0):
+                if(j==0): 
+                    g.addEdge(grid[i][j],grid[i][j+1])
+                    g.addEdge(grid[i][j],grid[i+1][j])
+                    continue
+
+                elif(j>0 and j<col-1):
+                    g.addEdge(grid[i][j],grid[i][j-1])
+                    g.addEdge(grid[i][j],grid[i][j+1])
+                    g.addEdge(grid[i][j],grid[i+1][j])
+                    continue
+
+                else:
+                    g.addEdge(grid[i][j],grid[i][j-1])
+                    g.addEdge(grid[i][j],grid[i+1][j])
+                    continue
+
+            elif(i>0 and i<row-1):
+                if(j==0):
+                    g.addEdge(grid[i][j],grid[i][j+1])
+                    g.addEdge(grid[i][j],grid[i-1][j])
+                    g.addEdge(grid[i][j],grid[i+1][j])
+                    continue
+                
+                elif(j>0 and j<col-1):
+                    g.addEdge(grid[i][j],grid[i][j-1])
+                    g.addEdge(grid[i][j],grid[i][j+1])
+                    g.addEdge(grid[i][j],grid[i-1][j])
+                    g.addEdge(grid[i][j],grid[i+1][j])
+                    continue
+
+                else:
+                    g.addEdge(grid[i][j],grid[i][j-1])
+                    g.addEdge(grid[i][j],grid[i-1][j])
+                    g.addEdge(grid[i][j],grid[i+1][j])
+                    continue
+
+            else:
+                if(j==0): 
+                    g.addEdge(grid[i][j],grid[i][j+1])
+                    g.addEdge(grid[i][j],grid[i-1][j])
+                    continue
+                
+                elif(j>0 and j<col-1):
+                    g.addEdge(grid[i][j],grid[i][j-1])
+                    g.addEdge(grid[i][j],grid[i][j+1])
+                    g.addEdge(grid[i][j],grid[i-1][j])
+                    continue
+
+                else:
+                    g.addEdge(grid[i][j],grid[i][j-1])
+                    g.addEdge(grid[i][j],grid[i-1][j])
+                    continue
     return g
