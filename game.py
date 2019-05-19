@@ -381,7 +381,7 @@ class Game:
                 if snakeBody[0] == snakeCoords[cons.HEAD][0] and snakeBody[1] == snakeCoords[cons.HEAD][1]:
                     return 
             if snakeCoords[cons.HEAD][0] == food[0] and snakeCoords[cons.HEAD][1] == food[1]:
-                food = getRandomLocation(snakeCoords) 
+                food = getRandomfood(snakeCoords) 
                 if food == False:
                     return
             else:

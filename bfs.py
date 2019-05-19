@@ -57,7 +57,7 @@ class Graph:
 def create():
     g = Graph()
 
-    '''for x in range(1, 9):
+    for x in range(1, 9):
         for y in range(1, 9):
             g.addEdge(grid[x][y], grid[x-1][y])
             g.addEdge(grid[x][y], grid[x+1][y])
@@ -91,6 +91,17 @@ def create():
 
     g.addEdge(grid[9][0], grid[8][0])
     g.addEdge(grid[9][0], grid[9][1])
+
+    return g
+
+
+
+
+
+
+
+
+
 '''
 
     for i in range(row):
@@ -148,4 +159,4 @@ def create():
                     g.addEdge(grid[i][j],grid[i][j-1])
                     g.addEdge(grid[i][j],grid[i-1][j])
                     continue
-    return g
+    return g'''

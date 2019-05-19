@@ -10,11 +10,19 @@ def starting_positions(): # Function to get initial parameters
     return snakeCoords, food, score
 
 def getRandomLocation(snake): # Function to get random location for food
-    if len(snake) == 100:
+    if len(snake) == cons.width*cons.height:
+        return False
+    temp = [random.randint(1, cons.width - 2), random.randint(1, cons.height - 2)]
+    while test_not_ok(temp, snake):
+        temp = [random.randint(1, cons.width - 2), random.randint(1, cons.height - 2)]#chala
+    return temp
+
+def getRandomfood(snake): # Function to get random location for food
+    if len(snake) == cons.width*cons.height:
         return False
     temp = [random.randint(0, cons.width - 1), random.randint(0, cons.height - 1)]
     while test_not_ok(temp, snake):
-        temp = [random.randint(0, cons.width - 1), random.randint(0, cons.height - 1)]
+        temp = [random.randint(0, cons.width - 1), random.randint(0, cons.height - 1)]#chala
     return temp
 
 def test_not_ok(temp, snake): # Function to check if food is not on snake body
